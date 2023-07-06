@@ -1,0 +1,48 @@
+{%extends 'base.html'%}
+{%block content%}
+<h3 class = "text-center mt-5 mb-5">Оформление заказа</h3>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Наименование</th>
+        <th scope="col">Изображение</th>
+        <th scope="col">Цена</th>
+        <th scope="col">Количество</th>
+        <th scope="col">Общая цена</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for item in notebooks_in_cart %}
+      <tr>
+        <th scope="row">{{item.products.title}}</th>
+        <td class = "w-25"><img src = {{item.products.image.url}} class = "img-fluid"> </td>
+        <td>{{item.products.price}} руб.</td>
+        <td>{{item.kolichestvo}}</td>
+        <td>{{item.products.final_price}} руб.</td> 
+      </tr>
+    {%endfor%}
+    {% for item in smartphone_in_cart %}
+    <tr>
+      <th scope="row">{{item.products.title}}</th>
+      <td class = "w-25"><img src = {{item.products.image.url}} class = "img-fluid"> </td>
+      <td>{{item.products.price}} руб.</td>
+      <td>{{item.kolichestvo}}</td>
+      <td>{{item.products.final_price}} руб.</td> 
+    </tr>
+  {%endfor%}
+    <tr>
+      <td colspan = "2"></td>
+      <td>Итого:</td>
+      <td>{{ cart.total_products}}</td>
+      <td><strong>{{cart.final_price}}руб.</strong></td>
+      </tr>
+    </tbody>
+  </table>
+<hr>
+<h3 class = "text-center mt-5 mb-5">Форма заказа</h3>
+<form action="{%url 'make-order'%}" method="POST">
+    {%csrf_token%}
+    {{form}}
+    <input type="submit" class="btn bts_success btn-block mb-3" values="Оформить заказ">
+</form>
+{%endblock content%}

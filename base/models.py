@@ -55,6 +55,8 @@ class Notebook(Product):
     
     def __str__(self):
         return "{} : {}".format(self.Category.name, self.title)
+    def get_absolute_url(self):
+        return reverse('notebook_detail', kwargs={'post_slug': self.slug})
 
 class notebook_has_Cart(models.Model):
     products = models.ForeignKey(Notebook, on_delete=models.CASCADE)
@@ -63,7 +65,7 @@ class notebook_has_Cart(models.Model):
 
     def __str__(self):
         return "№{} товар: №{} корзина: {} шт.".format(self.products, self.carts, self.kolichestvo)
-
+    
     
 class SmartPhone(Product):
     diagonal = models.CharField(max_length=255, verbose_name= 'Диагональ')
@@ -78,6 +80,7 @@ class SmartPhone(Product):
 
     def __str__(self):
         return "{} : {}".format(self.Category.name, self.title)
+    
 
 class smartphone_has_Cart(models.Model):
     products = models.ForeignKey(SmartPhone, on_delete=models.CASCADE)
@@ -114,5 +117,5 @@ class Order(models.Model):
     status = models.CharField(max_length=100, verbose_name='Статус заказа', choices=STATUS_CHOISES,default=STATUS_NEW)
     comment = models.TextField(verbose_name= 'Комментарий к закаку', null = True, blank= True)
     created_at=models.DateTimeField(auto_now=True, verbose_name='Дата создания заказа')
-    order_date = models.DateField(verbose_name='Дата получения заказа', default=timezone.now)
+    order_date = models.DateField(verbose_name='Дата получения заказа', default=timezone.now, null = True, blank= True)
 # Create your models here.
